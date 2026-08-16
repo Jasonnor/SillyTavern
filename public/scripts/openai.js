@@ -3086,8 +3086,9 @@ export async function createGenerationParameters(settings, model, type, messages
         delete generate_data.frequency_penalty;
         delete generate_data.presence_penalty;
         // Keep reasoning_effort for the native Claude source, where the backend maps it to
-        // adaptive thinking; proxies may translate it into a thinking budget that these models reject.
-        if (settings.chat_completion_source !== chat_completion_sources.CLAUDE) {
+        // adaptive thinking, and for OpenAI-compatible proxies, which pass it through as an
+        // effort level. Other sources may translate it into a thinking budget these models reject.
+        if (![chat_completion_sources.CLAUDE, chat_completion_sources.CUSTOM].includes(settings.chat_completion_source)) {
             delete generate_data.reasoning_effort;
         }
     }
