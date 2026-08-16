@@ -2612,6 +2612,22 @@ function getReasoningEffort(settings = null, model = null) {
             }
         }
 
+        // Claude Fable / Claude 5 models accept "max" as their top effort level,
+        // so don't fold it down to "high" like the generic case below does.
+        if (settings.chat_completion_source === chat_completion_sources.CUSTOM && /claude-(fable|opus-5|sonnet-5)/.test(model)) {
+            switch (settings.reasoning_effort) {
+                case reasoning_effort_types.auto:
+                    return undefined;
+                case reasoning_effort_types.min:
+                    // "low" is the lowest effort these models support.
+                    return 'low';
+                case reasoning_effort_types.max:
+                    return 'max';
+                default:
+                    return settings.reasoning_effort;
+            }
+        }
+
         switch (settings.reasoning_effort) {
             case reasoning_effort_types.auto:
                 return undefined;
