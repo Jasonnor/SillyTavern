@@ -2612,9 +2612,9 @@ function getReasoningEffort(settings = null, model = null) {
             }
         }
 
-        // Claude Fable / Claude 5 models accept "max" as their top effort level,
+        // Claude Fable / Claude 5 / Opus 4.6+ models accept "max" as their top effort level,
         // so don't fold it down to "high" like the generic case below does.
-        if (settings.chat_completion_source === chat_completion_sources.CUSTOM && /claude-(fable|opus-5|sonnet-5)/.test(model)) {
+        if (settings.chat_completion_source === chat_completion_sources.CUSTOM && /claude-(fable|opus-5|sonnet-5|opus-4-6|opus-4-7|opus-4-8)/.test(model)) {
             switch (settings.reasoning_effort) {
                 case reasoning_effort_types.auto:
                     return undefined;
