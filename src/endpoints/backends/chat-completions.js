@@ -2604,9 +2604,9 @@ router.post('/generate', async function (request, response) {
             if (request.body.chat_completion_source === CHAT_COMPLETION_SOURCES.CUSTOM && /^koboldcpp\/(.+)$/.test(request.body.model)) {
                 bodyParams['reasoning_effort'] = request.body.reasoning_effort;
             }
-            // Claude Fable / Claude 5 models take an effort level rather than a thinking budget.
-            // Unanchored to also match prefixed ids like 'anthropic/claude-opus-5'.
-            if (request.body.chat_completion_source === CHAT_COMPLETION_SOURCES.CUSTOM && /claude-(fable|opus-5|sonnet-5)/.test(request.body.model)) {
+            // Claude Fable / Claude 5 / Opus 4.6+ models take an effort level rather than a thinking budget.
+            // Unanchored to also match prefixed ids like 'anthropic/claude-opus-5' or 'hapuppy/claude-opus-4-8'.
+            if (request.body.chat_completion_source === CHAT_COMPLETION_SOURCES.CUSTOM && /claude-(fable|opus-5|sonnet-5|opus-4-6|opus-4-7|opus-4-8)/.test(request.body.model)) {
                 bodyParams['reasoning_effort'] = request.body.reasoning_effort;
             }
         }
